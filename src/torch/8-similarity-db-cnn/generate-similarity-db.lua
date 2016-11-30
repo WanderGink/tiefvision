@@ -2,7 +2,8 @@
 -- You may use, distribute and modify this code under the
 -- terms of the Apache License v2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt).
 
-local torchFolder = require('paths').thisfile('..')
+local paths = require('paths')
+local torchFolder = paths.thisfile('..')
 package.path = string.format("%s;%s/?.lua", os.getenv("LUA_PATH"), torchFolder)
 
 require 'inn'
@@ -21,6 +22,8 @@ local function createDb(sourceFolder, destinationFolder)
   for fileIndex = 1, #files do
     local file = files[fileIndex]
     local destPath = destinationFolder .. '/' .. file
+
+    paths.mkdir(destinationFolder)
     if(not tiefvision_commons.fileExists(destPath)) then
       print('Encoding ' .. file)
       local encoderOutput = similarity_db_lib.encodeImage(sourceFolder .. '/' .. file, encoder)
